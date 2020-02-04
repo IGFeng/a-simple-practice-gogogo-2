@@ -51,3 +51,9 @@ Route::group(['prefix' => 'value', 'namespace' => 'Api'], function () {
     Route::post('modify', 'ValueController@modify');//修改
     Route::post('connect','ValueController@connect');//合并
 });
+Route::group(['prefix'=>'remember','namespace'=>'Api'],function(){
+    Route::post('find','RememberController@find');
+    Route::post('delete','RememberController@delete');
+    Route::post('visit','RememberController@visit');
+    Route::post('record','RememberController@record');
+});
