@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Aphorism;
 
 class AphorismController extends Controller
-{//好多可以借鉴，，，，不好意思。
+{//
     public function add(Request $request)
     {
         //获取传递的参数
@@ -21,11 +21,11 @@ class AphorismController extends Controller
                 'data' => null
             ]);
         }
-        //创建一个Post的实例并且保存
-        $post = new Aphorism;
-        $post->author = $author;
-        $post->content = $content;
-        $post->save();
+        //创建一个aphorism的实例并且保存
+        $aphorism = new Aphorism;
+        $aphorism->author = $author;
+        $aphorism->content = $content;
+        $aphorism->save();
         //返回一个响应告诉客户端新建成功了
         return response()->json([
             'ret' => '200',
@@ -48,9 +48,9 @@ class AphorismController extends Controller
         //从请求获取要删除的id
         $id = $request->id;
         //通过find静态方法传入实例的id尝试获取对应的实例
-        $post = Aphorism::find($id);
+        $aphorism = Aphorism::find($id);
         //判断这个实例存不存在，不存在则直接返回错误
-        if(empty($post)){
+        if(empty($aphorism)){
             return response()->json([
                 'ret' => '1002',
                 'desc' => '找不到该警句',
@@ -58,7 +58,7 @@ class AphorismController extends Controller
             ]);
         }
         //调用delete方法删除实例
-        $post->delete();
+        $aphorism->delete();
         //返回成功的响应
         return response()->json([
             'ret' => 200,
@@ -74,9 +74,9 @@ class AphorismController extends Controller
         $author = $request->author;
         $content = $request->content;
         //通过find静态方法传入实例的id尝试获取对应的实例
-        $post = Aphorism::find($id);
+        $aphorism = Aphorism::find($id);
         //判断这个实例存不存在，不存在则直接返回错误
-        if(empty($post)){
+        if(empty($aphorism)){
             return response()->json([
                 'ret' => '1002',
                 'desc' => '找不到该警句',
@@ -85,13 +85,13 @@ class AphorismController extends Controller
         }
         //判断用户有没有传入对应的数据，有的话就更新model实例的对应项。
         if(!empty($author)){
-            $post->author = $author;
+            $aphorism->author = $author;
         }
         if(!empty($content)){
-            $post->content = $content;
+            $aphorism->content = $content;
         }
         //把更改应用进数据库
-        $post->save();
+        $aphorism->save();
         return response()->json([
             'ret' => 200,
             'desc' => '成功',
@@ -101,20 +101,20 @@ class AphorismController extends Controller
     public function find(Request $request)
     {
         $words=$request->content;
-        $post=Aphorism::where('content','like',"%$words%")->first();
+        $aphorism=Aphorism::where('content','like',"%$words%")->first();
         //搜索相应内容
-        if(empty($post)){
+        if(empty($aphorism)){
             return response()->json([
                 'ret' => '1002',
                 'desc' => '找不到该警句',
                 'data' => $request->all()
             ]);
         };
-        if(!empty($post)){
+        if(!empty($aphorism)){
             return response()->json([
                 'ret' => 200,
                 'desc' => '成功',
-                'data' => $post
+                'data' => $aphorism
             ]);
         }
     }
