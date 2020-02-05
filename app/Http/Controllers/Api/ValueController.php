@@ -35,7 +35,7 @@ class ValueController extends Controller
     {
 
 
-        $value=Value::where('stg','like',"%$request->stg%")->first();
+        $value=Value::where('stg',$request->stg)->first();
 
         if(empty($value)){
             return response()->json([
@@ -44,14 +44,12 @@ class ValueController extends Controller
                 'data' => $request->all()
             ]);
         }
-        if(!empty($value))
-        {
             return response()->json([
                 'ret' => 200,
                 'desc' => '成功',
                 'data' => $value->sen
             ]);
-        }
+
 
     }
 
